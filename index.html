@@ -44,14 +44,14 @@
   ::selection{background:var(--oxide-soft);color:#fff;}
   :focus-visible{outline:2px solid var(--verdigris);outline-offset:2px;}
 
-  .wrap{max-width:920px;margin:0 auto;padding:2rem 1.25rem 0;}
+  .wrap{max-width:1040px;margin:0 auto;padding:1.4rem 1.25rem 0;}
 
   /* ---------- Masthead ---------- */
   header.masthead{
     display:flex;justify-content:space-between;align-items:flex-end;
     gap:1.5rem;flex-wrap:wrap;
     border-bottom:3px solid var(--ink);
-    padding-bottom:1rem;margin-bottom:1.75rem;
+    padding-bottom:.7rem;margin-bottom:1rem;
   }
   .masthead-title{display:flex;flex-direction:column;gap:.15rem;}
   .eyebrow{
@@ -73,7 +73,7 @@
     font-size:.72rem;
     letter-spacing:.05em;
     border:1px solid var(--ink);
-    padding:.5rem .7rem;
+    padding:.4rem .6rem;
     transform:rotate(-1.2deg);
     background:var(--panel);
     color:var(--ink);
@@ -82,32 +82,40 @@
   }
   .fascicolo b{display:block;font-size:1.05rem;letter-spacing:.08em;}
 
+  /* ---------- Layout: main column + dice sidebar ---------- */
+  .layout{display:grid;grid-template-columns:1fr 300px;gap:1rem;align-items:start;}
+  .col-main{min-width:0;}
+  @media (max-width:880px){
+    .layout{display:block;}
+    .dice-aside{position:static;margin-bottom:.7rem;}
+  }
+
   /* ---------- Section shell ---------- */
   section.panel{
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:var(--radius);
-    padding:1.25rem 1.35rem 1.4rem;
-    margin-bottom:1rem;
+    padding:.9rem 1.05rem 1rem;
+    margin-bottom:.7rem;
   }
   section.panel > h2{
     font-family:var(--font-display);
     font-weight:700;
     text-transform:uppercase;
     letter-spacing:.04em;
-    font-size:1.15rem;
-    margin:0 0 .2rem;
+    font-size:1.1rem;
+    margin:0 0 .15rem;
     display:flex;align-items:baseline;gap:.5rem;
   }
   section.panel > h2 .num{
     font-family:var(--font-mono);color:var(--ink-soft);font-size:.8rem;
   }
-  .hint{color:var(--ink-soft);font-size:.85rem;margin:0 0 .9rem;}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;}
+  .hint{color:var(--ink-soft);font-size:.83rem;margin:0 0 .6rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;}
   @media (max-width:640px){.grid2,.grid4{grid-template-columns:1fr 1fr;}}
 
-  label.field{display:flex;flex-direction:column;gap:.3rem;font-size:.85rem;color:var(--ink-soft);margin-bottom:.9rem;}
+  label.field{display:flex;flex-direction:column;gap:.22rem;font-size:.85rem;color:var(--ink-soft);margin-bottom:.6rem;}
   label.field:last-child{margin-bottom:0;}
   input[type=text],input[type=number],textarea,select{
     font-family:var(--font-body);
@@ -116,14 +124,14 @@
     background:#fff;
     border:1px solid var(--line-strong);
     border-radius:var(--radius);
-    padding:.5rem .6rem;
+    padding:.4rem .55rem;
     width:100%;
   }
-  textarea{resize:vertical;min-height:4.2rem;font-family:var(--font-body);}
+  textarea{resize:vertical;min-height:3.4rem;font-family:var(--font-body);}
   input[type=number]{font-family:var(--font-mono);}
 
   .row{display:flex;gap:.5rem;align-items:center;}
-  .row + .row{margin-top:.5rem;}
+  .row + .row{margin-top:.4rem;}
   .grow{flex:1;}
   button{
     font-family:var(--font-mono);
@@ -135,19 +143,19 @@
   }
   .btn{
     background:var(--ink);color:var(--paper);border:1px solid var(--ink);
-    padding:.55rem .9rem;
+    padding:.42rem .75rem;
   }
   .btn:hover{background:#000;}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong);}
   .btn.ghost:hover{border-color:var(--ink);}
   .btn.danger{background:transparent;color:var(--oxide);border:1px solid var(--oxide-soft);}
   .btn.danger:hover{background:var(--oxide);color:#fff;}
-  .btn.small{padding:.32rem .55rem;font-size:.68rem;}
+  .btn.small{padding:.26rem .5rem;font-size:.68rem;}
   .btn:disabled{opacity:.4;cursor:not-allowed;}
   .icon-btn{
     background:transparent;border:1px solid var(--line-strong);color:var(--ink-soft);
-    width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;
-    font-size:1rem;line-height:1;
+    width:1.75rem;height:1.75rem;display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;line-height:1;
   }
   .icon-btn:hover{border-color:var(--oxide);color:var(--oxide);}
 
@@ -155,7 +163,7 @@
   .attr-card{
     border:1px solid var(--line-strong);
     background:#fff;
-    padding:.8rem .7rem;
+    padding:.55rem .5rem;
     text-align:center;
   }
   .attr-card.dominante{border-color:var(--oxide);box-shadow:0 0 0 1px var(--oxide);}
@@ -166,28 +174,34 @@
   }
   .attr-name .star{color:var(--oxide);}
   .attr-val{
-    font-family:var(--font-display);font-weight:800;font-size:2.4rem;
-    margin:.15rem 0;
+    font-family:var(--font-display);font-weight:800;font-size:2.1rem;
+    margin:.05rem 0;
   }
   .attr-val input{
-    width:3.2rem;text-align:center;border:none;background:transparent;
-    font-family:var(--font-display);font-weight:800;font-size:2.4rem;color:var(--ink);
+    width:2.7rem;text-align:center;border:none;background:transparent;
+    font-family:var(--font-display);font-weight:800;font-size:2.1rem;color:var(--ink);
     padding:0;
   }
-  .attr-fail{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:.4rem;}
+  .attr-fail{display:flex;align-items:center;justify-content:center;gap:.3rem;margin-top:.25rem;}
   .attr-fail span{font-family:var(--font-mono);font-size:.75rem;color:var(--ink-soft);min-width:1.4rem;}
-  .attr-dominante-select{margin-top:.35rem;}
-  .attr-dominante-select select{font-size:.75rem;padding:.25rem .3rem;}
+  .attr-dominante-select{margin-top:.25rem;}
+  .attr-dominante-select select{font-size:.75rem;padding:.2rem .3rem;}
 
-  /* ---------- Trauma boxes ---------- */
-  .trauma-block{margin-bottom:1rem;}
+  /* ---------- Trauma boxes & fato ---------- */
+  .fato-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-bottom:.5rem;margin-bottom:.5rem;
+    border-bottom:1px dashed var(--line-strong);
+  }
+  .fato-row .fato-label{font-family:var(--font-display);text-transform:uppercase;font-size:.9rem;letter-spacing:.03em;}
+  .trauma-block{margin-bottom:.7rem;}
   .trauma-block:last-child{margin-bottom:0;}
-  .trauma-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;}
+  .trauma-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem;}
   .trauma-head h3{font-family:var(--font-display);font-size:1rem;text-transform:uppercase;letter-spacing:.03em;margin:0;}
   .trauma-head .soglia{font-family:var(--font-mono);font-size:.78rem;color:var(--ink-soft);}
-  .box-track{display:flex;flex-wrap:wrap;gap:.3rem;}
+  .box-track{display:flex;flex-wrap:wrap;gap:.28rem;}
   .tbox{
-    width:1.7rem;height:1.7rem;border:1px solid var(--ink);
+    width:1.5rem;height:1.5rem;border:1px solid var(--ink);
     display:flex;align-items:center;justify-content:center;
     font-family:var(--font-mono);font-size:.75rem;color:transparent;
     background:#fff;cursor:pointer;
@@ -195,24 +209,24 @@
   .tbox.filled{background:var(--oxide);border-color:var(--oxide);color:#fff;}
   .ko-tag{
     font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;
-    color:#fff;background:var(--oxide);padding:.15rem .5rem;margin-left:.6rem;
+    color:#fff;background:var(--oxide);padding:.1rem .4rem;margin-left:.5rem;
   }
 
   /* ---------- Pips (fato) ---------- */
-  .pip-row{display:flex;gap:.4rem;align-items:center;}
+  .pip-row{display:flex;gap:.35rem;align-items:center;}
   .pip{
-    width:1.6rem;height:1.6rem;border:1px solid var(--ink);border-radius:50%;
+    width:1.45rem;height:1.45rem;border:1px solid var(--ink);border-radius:50%;
     background:#fff;cursor:pointer;
   }
   .pip.filled{background:var(--verdigris);border-color:var(--verdigris);}
 
   /* ---------- Dynamic lists ---------- */
-  .dyn-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;}
+  .dyn-row{display:flex;gap:.45rem;align-items:center;margin-bottom:.4rem;}
   .dyn-row:last-child{margin-bottom:0;}
   .dyn-row select{flex:0 0 auto;width:auto;min-width:8.5rem;}
   .tag{
     font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em;
-    padding:.15rem .4rem;border:1px solid var(--line-strong);color:var(--ink-soft);
+    padding:.12rem .35rem;border:1px solid var(--line-strong);color:var(--ink-soft);
     white-space:nowrap;
   }
   .tag.plus2{border-color:var(--verdigris);color:var(--verdigris);}
@@ -223,31 +237,50 @@
   .segmented{display:flex;border:1px solid var(--ink);width:fit-content;flex-wrap:wrap;}
   .segmented button{
     background:#fff;border:none;border-right:1px solid var(--ink);
-    padding:.5rem .8rem;color:var(--ink-soft);
+    padding:.42rem .7rem;color:var(--ink-soft);
   }
   .segmented button:last-child{border-right:none;}
   .segmented button.active{background:var(--ink);color:var(--paper);}
 
+  /* ---------- Dice sidebar ---------- */
+  .dice-aside{
+    position:sticky;top:1rem;align-self:start;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .dice-toggle{position:absolute;opacity:0;pointer-events:none;}
+  .dice-aside-head{
+    display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;
+    padding:.65rem .8rem;background:var(--paper-alt);border-bottom:1px solid var(--line);
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;font-size:1.02rem;
+  }
+  .dice-aside-head .chevron{font-family:var(--font-mono);font-size:.8rem;color:var(--ink-soft);transition:transform .15s ease;}
+  .dice-toggle:checked ~ .dice-aside-head .chevron{transform:rotate(180deg);}
+  .dice-aside-body{padding:.8rem .8rem .9rem;}
+  .dice-toggle:not(:checked) ~ .dice-aside-body{display:none;}
+  .dice-aside .dice-controls{grid-template-columns:1fr;}
+  @media (max-width:880px){ .dice-aside .dice-controls{grid-template-columns:1fr 1fr;} }
+
   /* ---------- Dice roller ---------- */
-  .dice-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;}
+  .dice-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;}
   @media (max-width:720px){.dice-controls{grid-template-columns:1fr 1fr;}}
   .dice-total{
     font-family:var(--font-mono);
     display:flex;justify-content:space-between;align-items:center;
     border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong);
-    padding:.7rem 0;margin:1rem 0;font-size:.85rem;
+    padding:.5rem 0;margin:.7rem 0;font-size:.85rem;
   }
-  .dice-total b{font-size:1.6rem;font-family:var(--font-display);}
-  .dice-result{margin-top:1rem;}
-  .dice-faces{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;}
+  .dice-total b{font-size:1.35rem;font-family:var(--font-display);}
+  .dice-result{margin-top:.7rem;}
+  .dice-faces{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem;}
   .die{
-    width:2.1rem;height:2.1rem;border:1px solid var(--ink);
+    width:1.85rem;height:1.85rem;border:1px solid var(--ink);
     display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-mono);font-weight:600;background:#fff;
+    font-family:var(--font-mono);font-weight:600;background:#fff;font-size:.85rem;
   }
   .die.success{background:var(--verdigris);border-color:var(--verdigris);color:#fff;}
   .die.worst{background:var(--oxide);border-color:var(--oxide);color:#fff;}
-  .outcome{font-family:var(--font-mono);font-size:.9rem;padding:.6rem .7rem;border-left:3px solid var(--ink-soft);background:#fff;}
+  .outcome{font-family:var(--font-mono);font-size:.82rem;padding:.5rem .6rem;border-left:3px solid var(--ink-soft);background:#fff;}
   .outcome.crit{border-color:var(--verdigris);color:var(--verdigris);}
   .outcome.fail{border-color:var(--oxide);color:var(--oxide);}
 
@@ -255,14 +288,14 @@
   .persist-bar{
     background:var(--ink);color:var(--paper);
     border-radius:var(--radius);
-    padding:1rem 1.2rem;
-    margin-top:1.5rem;
+    padding:.85rem 1rem;
+    margin-top:1rem;
   }
   .persist-bar h2{
     font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;
-    font-size:1rem;margin:0 0 .5rem;color:var(--paper);
+    font-size:1rem;margin:0 0 .4rem;color:var(--paper);
   }
-  .persist-bar p{color:#C9C8BC;font-size:.85rem;margin:.4rem 0 .8rem;}
+  .persist-bar p{color:#C9C8BC;font-size:.85rem;margin:.3rem 0 .6rem;}
   .link-row{display:flex;gap:.5rem;}
   .link-row input{
     font-family:var(--font-mono);font-size:.78rem;background:#0000002e;
@@ -270,18 +303,19 @@
   }
   .persist-bar .btn.ghost{border-color:#ffffff55;color:var(--paper);}
   .persist-bar .btn.ghost:hover{border-color:#fff;}
-  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem;}
-  .save-state{font-family:var(--font-mono);font-size:.72rem;color:var(--verdigris-soft);height:1rem;margin-top:.4rem;}
+  .btn-row{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.55rem;}
+  .save-state{font-family:var(--font-mono);font-size:.72rem;color:var(--verdigris-soft);height:1rem;margin-top:.3rem;}
 
   footer.credits{
     text-align:center;color:var(--ink-soft);font-size:.75rem;
-    font-family:var(--font-mono);margin-top:1.5rem;
+    font-family:var(--font-mono);margin-top:1rem;
   }
 
+  details.help{margin:0 0 .6rem;}
   details.help summary{cursor:pointer;font-family:var(--font-mono);font-size:.78rem;color:var(--ink-soft);letter-spacing:.03em;text-transform:uppercase;}
-  details.help[open] summary{margin-bottom:.6rem;}
+  details.help[open] summary{margin-bottom:.5rem;}
   details.help ul{margin:.3rem 0 0;padding-left:1.1rem;font-size:.88rem;}
-  details.help li{margin-bottom:.3rem;}
+  details.help li{margin-bottom:.25rem;}
 
   @media (prefers-reduced-motion: no-preference){
     .tbox,.pip,.die,section.panel{transition:background-color .15s ease, border-color .15s ease;}
@@ -302,13 +336,16 @@
   <details class="help">
     <summary>Promemoria regole veloce</summary>
     <ul>
-      <li>Tira la riserva di D10: <b>ogni 10 è un Successo</b>. Più di un 10 è un <b>Successo Critico</b>.</li>
-      <li>Nessun 10 = <b>Complicazione</b> (più basso è il dado più alto ottenuto, più grave è).</li>
+      <li>Tira la riserva di D10: <b>9 e 10 sono Successi</b>. Più di un Successo è un <b>Successo Critico</b>.</li>
+      <li>Nessun Successo = <b>Complicazione</b> (più basso è il dado più alto ottenuto, più grave è).</li>
       <li>Riserva = Attributo + Qualità (+1D) + Abilità (+1D) + Equipaggiamento − Trauma − Difficoltà.</li>
       <li>Trauma: la penalità è pari alla metà (arrotondata per eccesso) del livello attuale.</li>
       <li>Punti Fato: rilancia un tiro tenendo i dadi che vuoi tranne gli 1. Massimo 3 punti.</li>
     </ul>
   </details>
+
+  <div class="layout">
+  <div class="col-main">
 
   <!-- IDENTITÀ -->
   <section class="panel">
@@ -333,9 +370,13 @@
     <div class="grid4" id="attrGrid"></div>
   </section>
 
-  <!-- SOGLIA DI TRAUMA -->
+  <!-- SOGLIA DI TRAUMA & PUNTI FATO -->
   <section class="panel">
-    <h2>Soglia di Trauma <span class="num">03</span></h2>
+    <h2>Trauma &amp; Punti Fato <span class="num">03</span></h2>
+    <div class="fato-row">
+      <span class="fato-label">Punti Fato</span>
+      <div class="pip-row" id="fatoPips"></div>
+    </div>
     <p class="hint">Danno = 1 + ⌈(Forza+Agilità)/2⌉ · Stress = 1 + ⌈(Mente+Empatia)/2⌉ — calcolate automaticamente dagli Attributi.</p>
     <div class="trauma-block">
       <div class="trauma-head">
@@ -404,16 +445,9 @@
     <div class="segmented" id="ricchezzaSeg"></div>
   </section>
 
-  <!-- PUNTI FATO -->
-  <section class="panel">
-    <h2>Punti Fato <span class="num">09</span></h2>
-    <p class="hint">Massimo 3. Clicca un pallino per impostare il valore.</p>
-    <div class="pip-row" id="fatoPips"></div>
-  </section>
-
   <!-- CICATRICI / DISTURBI -->
   <section class="panel">
-    <h2>Cicatrici &amp; Disturbi <span class="num">10</span></h2>
+    <h2>Cicatrici &amp; Disturbi <span class="num">09</span></h2>
     <p class="hint">Ricevute quando vai KO: Cicatrice (Danno) o Disturbo (Stress).</p>
     <div class="grid2">
       <div>
@@ -431,14 +465,22 @@
 
   <!-- NOTE -->
   <section class="panel">
-    <h2>Note <span class="num">11</span></h2>
+    <h2>Note <span class="num">10</span></h2>
     <textarea id="note" style="min-height:6rem;" placeholder="Appunti liberi, contatti, obiettivi, inventario…"></textarea>
   </section>
 
+  </div>
+  <!-- fine col-main -->
+
   <!-- TIRO DEI DADI -->
-  <section class="panel">
-    <h2>Tiro dei Dadi <span class="num">12</span></h2>
-    <p class="hint">Calcola la riserva e tira i D10. Successo = 10. Più di un 10 = Successo Critico.</p>
+  <aside class="dice-aside">
+    <input type="checkbox" id="diceToggle" class="dice-toggle" checked>
+    <label for="diceToggle" class="dice-aside-head">
+      <span>Tiro dei Dadi</span>
+      <span class="chevron">▾</span>
+    </label>
+    <div class="dice-aside-body">
+    <p class="hint">Successo = 9 o 10. Più di un Successo = Successo Critico.</p>
     <div class="dice-controls">
       <label class="field">Attributo
         <select id="diceAttr"></select>
@@ -481,7 +523,11 @@
     </div>
     <button class="btn" id="rollBtn">Tira i dadi</button>
     <div class="dice-result" id="diceResult"></div>
-  </section>
+    </div>
+  </aside>
+
+  </div>
+  <!-- fine layout -->
 
   <!-- PERSISTENZA / LINK -->
   <section class="persist-bar">
@@ -887,15 +933,15 @@
 
     var rolls = [];
     for(var i=0;i<r.total;i++){ rolls.push(1 + Math.floor(Math.random()*10)); }
-    var successi = rolls.filter(function(v){return v===10;}).length;
-    var maxNonSuccess = Math.max.apply(null, rolls.filter(function(v){return v!==10;}).concat([0]));
+    var successi = rolls.filter(function(v){return v>=9;}).length;
+    var maxNonSuccess = Math.max.apply(null, rolls.filter(function(v){return v<9;}).concat([0]));
 
     var facesWrap = document.createElement('div');
     facesWrap.className = 'dice-faces';
     var worst = Math.min.apply(null, rolls);
     rolls.forEach(function(v){
       var d = document.createElement('div');
-      d.className = 'die' + (v===10 ? ' success' : (v===worst && successi===0 ? ' worst' : ''));
+      d.className = 'die' + (v>=9 ? ' success' : (v===worst && successi===0 ? ' worst' : ''));
       d.textContent = v;
       facesWrap.appendChild(d);
     });
