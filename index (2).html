@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uallera — Scheda Personaggio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<style>
+  :root{
+    --paper:#E9E8DF;
+    --paper-alt:#DFDED2;
+    --panel:#F1F0E8;
+    --ink:#1B1C17;
+    --ink-soft:#5B5C52;
+    --line:#C7C5B4;
+    --line-strong:#9B9A88;
+    --oxide:#8A2E27;
+    --oxide-soft:#C77068;
+    --verdigris:#33635B;
+    --verdigris-soft:#6FA39A;
+    --radius:2px;
+    --font-display:'Big Shoulders Display',sans-serif;
+    --font-body:'Source Serif 4',serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 100% 0%, rgba(0,0,0,0.03), transparent 40%),
+      radial-gradient(circle at 0% 100%, rgba(0,0,0,0.02), transparent 40%);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.5;
+    padding:0 0 4rem;
+  }
+  a{color:var(--verdigris);}
+  ::selection{background:var(--oxide-soft);color:#fff;}
+  :focus-visible{outline:2px solid var(--verdigris);outline-offset:2px;}
+
+  .wrap{max-width:920px;margin:0 auto;padding:2rem 1.25rem 0;}
+
+  /* ---------- Masthead ---------- */
+  header.masthead{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:1.5rem;flex-wrap:wrap;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:1rem;margin-bottom:1.75rem;
+  }
+  .masthead-title{display:flex;flex-direction:column;gap:.15rem;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(2.6rem,8vw,4.2rem);
+    letter-spacing:.01em;
+    line-height:.85;
+    margin:0;
+    text-transform:uppercase;
+  }
+  .fascicolo{
+    font-family:var(--font-mono);
+    font-size:.72rem;
+    letter-spacing:.05em;
+    border:1px solid var(--ink);
+    padding:.5rem .7rem;
+    transform:rotate(-1.2deg);
+    background:var(--panel);
+    color:var(--ink);
+    white-space:nowrap;
+    box-shadow:2px 2px 0 rgba(0,0,0,0.08);
+  }
+  .fascicolo b{display:block;font-size:1.05rem;letter-spacing:.08em;}
+
+  /* ---------- Section shell ---------- */
+  section.panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.25rem 1.35rem 1.4rem;
+    margin-bottom:1rem;
+  }
+  section.panel > h2{
+    font-family:var(--font-display);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:1.15rem;
+    margin:0 0 .2rem;
+    display:flex;align-items:baseline;gap:.5rem;
+  }
+  section.panel > h2 .num{
+    font-family:var(--font-mono);color:var(--ink-soft);font-size:.8rem;
+  }
+  .hint{color:var(--ink-soft);font-size:.85rem;margin:0 0 .9rem;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;}
+  @media (max-width:640px){.grid2,.grid4{grid-template-columns:1fr 1fr;}}
+
+  label.field{display:flex;flex-direction:column;gap:.3rem;font-size:.85rem;color:var(--ink-soft);margin-bottom:.9rem;}
+  label.field:last-child{margin-bottom:0;}
+  input[type=text],input[type=number],textarea,select{
+    font-family:var(--font-body);
+    font-size:1rem;
+    color:var(--ink);
+    background:#fff;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:.5rem .6rem;
+    width:100%;
+  }
+  textarea{resize:vertical;min-height:4.2rem;font-family:var(--font-body);}
+  input[type=number]{font-family:var(--font-mono);}
+
+  .row{display:flex;gap:.5rem;align-items:center;}
+  .row + .row{margin-top:.5rem;}
+  .grow{flex:1;}
+  button{
+    font-family:var(--font-mono);
+    font-size:.78rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-radius:var(--radius);
+  }
+  .btn{
+    background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+    padding:.55rem .9rem;
+  }
+  .btn:hover{background:#000;}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong);}
+  .btn.ghost:hover{border-color:var(--ink);}
+  .btn.danger{background:transparent;color:var(--oxide);border:1px solid var(--oxide-soft);}
+  .btn.danger:hover{background:var(--oxide);color:#fff;}
+  .btn.small{padding:.32rem .55rem;font-size:.68rem;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .icon-btn{
+    background:transparent;border:1px solid var(--line-strong);color:var(--ink-soft);
+    width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;
+    font-size:1rem;line-height:1;
+  }
+  .icon-btn:hover{border-color:var(--oxide);color:var(--oxide);}
+
+  /* ---------- Attributes ---------- */
+  .attr-card{
+    border:1px solid var(--line-strong);
+    background:#fff;
+    padding:.8rem .7rem;
+    text-align:center;
+  }
+  .attr-card.dominante{border-color:var(--oxide);box-shadow:0 0 0 1px var(--oxide);}
+  .attr-name{
+    font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);
+    display:flex;align-items:center;justify-content:center;gap:.3rem;
+  }
+  .attr-name .star{color:var(--oxide);}
+  .attr-val{
+    font-family:var(--font-display);font-weight:800;font-size:2.4rem;
+    margin:.15rem 0;
+  }
+  .attr-val input{
+    width:3.2rem;text-align:center;border:none;background:transparent;
+    font-family:var(--font-display);font-weight:800;font-size:2.4rem;color:var(--ink);
+    padding:0;
+  }
+  .attr-fail{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:.4rem;}
+  .attr-fail span{font-family:var(--font-mono);font-size:.75rem;color:var(--ink-soft);min-width:1.4rem;}
+  .attr-dominante-select{margin-top:.35rem;}
+  .attr-dominante-select select{font-size:.75rem;padding:.25rem .3rem;}
+
+  /* ---------- Trauma boxes ---------- */
+  .trauma-block{margin-bottom:1rem;}
+  .trauma-block:last-child{margin-bottom:0;}
+  .trauma-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem;}
+  .trauma-head h3{font-family:var(--font-display);font-size:1rem;text-transform:uppercase;letter-spacing:.03em;margin:0;}
+  .trauma-head .soglia{font-family:var(--font-mono);font-size:.78rem;color:var(--ink-soft);}
+  .box-track{display:flex;flex-wrap:wrap;gap:.3rem;}
+  .tbox{
+    width:1.7rem;height:1.7rem;border:1px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:.75rem;color:transparent;
+    background:#fff;cursor:pointer;
+  }
+  .tbox.filled{background:var(--oxide);border-color:var(--oxide);color:#fff;}
+  .ko-tag{
+    font-family:var(--font-mono);font-size:.7rem;letter-spacing:.08em;
+    color:#fff;background:var(--oxide);padding:.15rem .5rem;margin-left:.6rem;
+  }
+
+  /* ---------- Pips (fato) ---------- */
+  .pip-row{display:flex;gap:.4rem;align-items:center;}
+  .pip{
+    width:1.6rem;height:1.6rem;border:1px solid var(--ink);border-radius:50%;
+    background:#fff;cursor:pointer;
+  }
+  .pip.filled{background:var(--verdigris);border-color:var(--verdigris);}
+
+  /* ---------- Dynamic lists ---------- */
+  .dyn-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;}
+  .dyn-row:last-child{margin-bottom:0;}
+  .dyn-row select{flex:0 0 auto;width:auto;min-width:8.5rem;}
+  .tag{
+    font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em;
+    padding:.15rem .4rem;border:1px solid var(--line-strong);color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .tag.plus2{border-color:var(--verdigris);color:var(--verdigris);}
+  .tag.plus1{border-color:var(--verdigris-soft);color:var(--verdigris);}
+  .tag.plus0{color:var(--ink-soft);}
+
+  /* ---------- Segmented control (ricchezza) ---------- */
+  .segmented{display:flex;border:1px solid var(--ink);width:fit-content;flex-wrap:wrap;}
+  .segmented button{
+    background:#fff;border:none;border-right:1px solid var(--ink);
+    padding:.5rem .8rem;color:var(--ink-soft);
+  }
+  .segmented button:last-child{border-right:none;}
+  .segmented button.active{background:var(--ink);color:var(--paper);}
+
+  /* ---------- Dice roller ---------- */
+  .dice-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;}
+  @media (max-width:720px){.dice-controls{grid-template-columns:1fr 1fr;}}
+  .dice-total{
+    font-family:var(--font-mono);
+    display:flex;justify-content:space-between;align-items:center;
+    border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong);
+    padding:.7rem 0;margin:1rem 0;font-size:.85rem;
+  }
+  .dice-total b{font-size:1.6rem;font-family:var(--font-display);}
+  .dice-result{margin-top:1rem;}
+  .dice-faces{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;}
+  .die{
+    width:2.1rem;height:2.1rem;border:1px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-weight:600;background:#fff;
+  }
+  .die.success{background:var(--verdigris);border-color:var(--verdigris);color:#fff;}
+  .die.worst{background:var(--oxide);border-color:var(--oxide);color:#fff;}
+  .outcome{font-family:var(--font-mono);font-size:.9rem;padding:.6rem .7rem;border-left:3px solid var(--ink-soft);background:#fff;}
+  .outcome.crit{border-color:var(--verdigris);color:var(--verdigris);}
+  .outcome.fail{border-color:var(--oxide);color:var(--oxide);}
+
+  /* ---------- Footer / persistence bar ---------- */
+  .persist-bar{
+    background:var(--ink);color:var(--paper);
+    border-radius:var(--radius);
+    padding:1rem 1.2rem;
+    margin-top:1.5rem;
+  }
+  .persist-bar h2{
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;
+    font-size:1rem;margin:0 0 .5rem;color:var(--paper);
+  }
+  .persist-bar p{color:#C9C8BC;font-size:.85rem;margin:.4rem 0 .8rem;}
+  .link-row{display:flex;gap:.5rem;}
+  .link-row input{
+    font-family:var(--font-mono);font-size:.78rem;background:#0000002e;
+    border:1px solid #ffffff33;color:var(--paper);
+  }
+  .persist-bar .btn.ghost{border-color:#ffffff55;color:var(--paper);}
+  .persist-bar .btn.ghost:hover{border-color:#fff;}
+  .btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem;}
+  .save-state{font-family:var(--font-mono);font-size:.72rem;color:var(--verdigris-soft);height:1rem;margin-top:.4rem;}
+
+  footer.credits{
+    text-align:center;color:var(--ink-soft);font-size:.75rem;
+    font-family:var(--font-mono);margin-top:1.5rem;
+  }
+
+  details.help summary{cursor:pointer;font-family:var(--font-mono);font-size:.78rem;color:var(--ink-soft);letter-spacing:.03em;text-transform:uppercase;}
+  details.help[open] summary{margin-bottom:.6rem;}
+  details.help ul{margin:.3rem 0 0;padding-left:1.1rem;font-size:.88rem;}
+  details.help li{margin-bottom:.3rem;}
+
+  @media (prefers-reduced-motion: no-preference){
+    .tbox,.pip,.die,section.panel{transition:background-color .15s ease, border-color .15s ease;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-title">
+      <span class="eyebrow">Uallera Engine · Scheda Personaggio (D10)</span>
+      <h1>Uallera</h1>
+    </div>
+    <div class="fascicolo">FASCICOLO N.<b id="fascicoloId">——————</b></div>
+  </header>
+
+  <details class="help">
+    <summary>Promemoria regole veloce</summary>
+    <ul>
+      <li>Tira la riserva di D10: <b>ogni 10 è un Successo</b>. Più di un 10 è un <b>Successo Critico</b>.</li>
+      <li>Nessun 10 = <b>Complicazione</b> (più basso è il dado più alto ottenuto, più grave è).</li>
+      <li>Riserva = Attributo + Qualità (+1D) + Abilità (+1D) + Equipaggiamento − Trauma − Difficoltà.</li>
+      <li>Trauma: la penalità è pari alla metà (arrotondata per eccesso) del livello attuale.</li>
+      <li>Punti Fato: rilancia un tiro tenendo i dadi che vuoi tranne gli 1. Massimo 3 punti.</li>
+    </ul>
+  </details>
+
+  <!-- IDENTITÀ -->
+  <section class="panel">
+    <h2>Identità <span class="num">01</span></h2>
+    <div class="grid2">
+      <label class="field">Nome del personaggio
+        <input type="text" id="nome" placeholder="Es. Fenalik">
+      </label>
+      <label class="field">Archetipo
+        <input type="text" id="archetipo" placeholder="Es. Vampiro Rinnegato">
+      </label>
+    </div>
+    <label class="field">Aspetto
+      <textarea id="aspetto" placeholder="Prima impressione che dà il personaggio…"></textarea>
+    </label>
+  </section>
+
+  <!-- ATTRIBUTI -->
+  <section class="panel">
+    <h2>Attributi <span class="num">02</span></h2>
+    <p class="hint">Creazione: 2–4 (5 per il Dominante). Massimo raggiungibile con l'avanzamento: 8. La ★ segna l'Attributo Dominante dell'Archetipo.</p>
+    <div class="grid4" id="attrGrid"></div>
+  </section>
+
+  <!-- SOGLIA DI TRAUMA -->
+  <section class="panel">
+    <h2>Soglia di Trauma <span class="num">03</span></h2>
+    <p class="hint">Danno = 1 + ⌈(Forza+Agilità)/2⌉ · Stress = 1 + ⌈(Mente+Empatia)/2⌉ — calcolate automaticamente dagli Attributi.</p>
+    <div class="trauma-block">
+      <div class="trauma-head">
+        <h3>Danno <span id="koDanno"></span></h3>
+        <span class="soglia" id="sogliaDannoLabel"></span>
+      </div>
+      <div class="box-track" id="dannoTrack"></div>
+    </div>
+    <div class="trauma-block">
+      <div class="trauma-head">
+        <h3>Stress <span id="koStress"></span></h3>
+        <span class="soglia" id="sogliaStressLabel"></span>
+      </div>
+      <div class="box-track" id="stressTrack"></div>
+    </div>
+  </section>
+
+  <!-- QUALITA / ABILITA -->
+  <section class="panel">
+    <h2>Qualità <span class="num">04</span></h2>
+    <p class="hint">Cosa sei / Come sei. In fase di creazione: 2.</p>
+    <div id="qualitaList"></div>
+    <div class="btn-row"><button class="btn ghost small" id="addQualita">+ Aggiungi Qualità</button></div>
+  </section>
+
+  <section class="panel">
+    <h2>Abilità <span class="num">05</span></h2>
+    <p class="hint">Cosa sai fare. In fase di creazione: 3.</p>
+    <div id="abilitaList"></div>
+    <div class="btn-row"><button class="btn ghost small" id="addAbilita">+ Aggiungi Abilità</button></div>
+  </section>
+
+  <!-- TRATTI -->
+  <section class="panel">
+    <h2>Tratti <span class="num">06</span></h2>
+    <label class="field">Convinzione — come vedi il mondo
+      <input type="text" id="convinzione" placeholder="Es. Il dovere del Forte è proteggere il Debole.">
+    </label>
+    <label class="field">Impulso — la tua reazione istintiva
+      <input type="text" id="impulso" placeholder="Es. Nel dubbio, spara.">
+    </label>
+    <label class="field">Legame — cosa provi per chi ti è più vicino
+      <input type="text" id="legame" placeholder="Es. «[Nome] mi ha salvato una volta, ora le sono debitore.»">
+    </label>
+    <div id="tratExtraList"></div>
+    <div class="btn-row"><button class="btn ghost small" id="addTratto">+ Aggiungi altro Tratto</button></div>
+  </section>
+
+  <!-- EQUIPAGGIAMENTO -->
+  <section class="panel">
+    <h2>Equipaggiamento <span class="num">07</span></h2>
+    <div id="equipList"></div>
+    <div class="btn-row"><button class="btn ghost small" id="addEquip">+ Aggiungi Equipaggiamento</button></div>
+    <label class="field" style="margin-top:1rem;max-width:16rem;">Armatura
+      <select id="armatura">
+        <option value="nessuna">Nessuna</option>
+        <option value="media">Media (+1D)</option>
+        <option value="avanzata">Avanzata (+2D)</option>
+      </select>
+    </label>
+  </section>
+
+  <!-- RICCHEZZA -->
+  <section class="panel">
+    <h2>Ricchezza <span class="num">08</span></h2>
+    <div class="segmented" id="ricchezzaSeg"></div>
+  </section>
+
+  <!-- PUNTI FATO -->
+  <section class="panel">
+    <h2>Punti Fato <span class="num">09</span></h2>
+    <p class="hint">Massimo 3. Clicca un pallino per impostare il valore.</p>
+    <div class="pip-row" id="fatoPips"></div>
+  </section>
+
+  <!-- CICATRICI / DISTURBI -->
+  <section class="panel">
+    <h2>Cicatrici &amp; Disturbi <span class="num">10</span></h2>
+    <p class="hint">Ricevute quando vai KO: Cicatrice (Danno) o Disturbo (Stress).</p>
+    <div class="grid2">
+      <div>
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:.9rem;margin:0 0 .5rem;">Cicatrici</h3>
+        <div id="cicatriciList"></div>
+        <div class="btn-row"><button class="btn ghost small" id="addCicatrice">+ Aggiungi</button></div>
+      </div>
+      <div>
+        <h3 style="font-family:var(--font-display);text-transform:uppercase;font-size:.9rem;margin:0 0 .5rem;">Disturbi</h3>
+        <div id="disturbiList"></div>
+        <div class="btn-row"><button class="btn ghost small" id="addDisturbo">+ Aggiungi</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTE -->
+  <section class="panel">
+    <h2>Note <span class="num">11</span></h2>
+    <textarea id="note" style="min-height:6rem;" placeholder="Appunti liberi, contatti, obiettivi, inventario…"></textarea>
+  </section>
+
+  <!-- TIRO DEI DADI -->
+  <section class="panel">
+    <h2>Tiro dei Dadi <span class="num">12</span></h2>
+    <p class="hint">Calcola la riserva e tira i D10. Successo = 10. Più di un 10 = Successo Critico.</p>
+    <div class="dice-controls">
+      <label class="field">Attributo
+        <select id="diceAttr"></select>
+      </label>
+      <label class="field">Qualità
+        <select id="diceQualita"><option value="no">Non usata</option><option value="si">+1D</option></select>
+      </label>
+      <label class="field">Abilità
+        <select id="diceAbilita"><option value="no">Non usata</option><option value="si">+1D</option></select>
+      </label>
+      <label class="field">Equipaggiamento
+        <select id="diceEquip"></select>
+      </label>
+      <label class="field">Vantaggio
+        <select id="diceVantaggio">
+          <option value="0">Nessuno</option>
+          <option value="1">Successo (+1D)</option>
+          <option value="2">Successo Critico (+2D)</option>
+        </select>
+      </label>
+      <label class="field">Distanza (solo attacchi a distanza)
+        <select id="diceDistanza">
+          <option value="none">Non applicabile</option>
+          <option value="-1">In mischia (-1D)</option>
+          <option value="0">Breve (0)</option>
+          <option value="-1b">Media (-1D)</option>
+          <option value="-2">Lunga (-2D)</option>
+        </select>
+      </label>
+      <label class="field">Difficoltà imposta dal Narratore
+        <input type="number" id="diceDifficolta" value="0" min="0" max="10">
+      </label>
+      <label class="field">Senza equipaggiamento richiesto
+        <select id="diceNoEquip"><option value="no">No</option><option value="si">Sì (-1D)</option></select>
+      </label>
+    </div>
+    <div class="dice-total">
+      <span>Riserva calcolata (Trauma incluso automaticamente)</span>
+      <b id="diceTotalVal">0</b>
+    </div>
+    <button class="btn" id="rollBtn">Tira i dadi</button>
+    <div class="dice-result" id="diceResult"></div>
+  </section>
+
+  <!-- PERSISTENZA / LINK -->
+  <section class="persist-bar">
+    <h2>Salvataggio &amp; Link scheda</h2>
+    <p>Lo stato della scheda è codificato interamente nell'indirizzo del browser. Copia questo link e conservalo: riaprendolo ritroverai la scheda esattamente com'è ora. Ogni modifica aggiorna il link automaticamente.</p>
+    <div class="link-row">
+      <input type="text" id="shareLink" readonly>
+      <button class="btn ghost" id="copyLink">Copia link</button>
+    </div>
+    <div class="save-state" id="saveState"></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="downloadJson">Scarica backup (.json)</button>
+      <button class="btn ghost" id="uploadJsonBtn">Carica backup (.json)</button>
+      <input type="file" id="uploadJsonInput" accept="application/json" style="display:none;">
+      <button class="btn danger" id="newSheet">Nuovo personaggio</button>
+    </div>
+  </section>
+
+  <footer class="credits">Uallera Engine · Motore a D10 · Scheda personaggio statica</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var ATTRS = [
+    {key:'forza', label:'Forza'},
+    {key:'agilita', label:'Agilità'},
+    {key:'mente', label:'Mente'},
+    {key:'empatia', label:'Empatia'}
+  ];
+  var EQUIP_BONUS = {avanzato:2, medio:1, scarso:0};
+  var ARMOR_BONUS = {nessuna:0, media:1, avanzata:2};
+  var RICCHEZZA_LABELS = ['Basso (Povero)','Medio Basso','Medio Alto','Alto (Ricco)'];
+  var CHARSET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+  function genId(){
+    var s='';
+    for(var i=0;i<6;i++){ s += CHARSET[Math.floor(Math.random()*CHARSET.length)]; }
+    return s;
+  }
+
+  function defaultState(){
+    return {
+      meta:{id:genId()},
+      nome:'', archetipo:'', attributoDominante:'forza', aspetto:'',
+      attributi:{forza:2, agilita:2, mente:2, empatia:2},
+      fallimenti:{forza:0, agilita:0, mente:0, empatia:0},
+      qualita:['',''],
+      abilita:['','',''],
+      tratti:{convinzione:'', impulso:'', legame:'', extra:[]},
+      equipaggiamento:[{nome:'', rango:'medio'}],
+      armatura:'nessuna',
+      ricchezza:1,
+      puntiFato:1,
+      trauma:{danno:0, stress:0},
+      cicatrici:[],
+      disturbi:[],
+      note:''
+    };
+  }
+
+  var state = null;
+  var saveTimer = null;
+
+  // ---------- Persistence ----------
+  function encodeState(s){
+    var json = JSON.stringify(s);
+    return LZString.compressToEncodedURIComponent(json);
+  }
+  function decodeState(str){
+    try{
+      var json = LZString.decompressFromEncodedURIComponent(str);
+      if(!json) return null;
+      var parsed = JSON.parse(json);
+      if(!parsed || !parsed.meta) return null;
+      return parsed;
+    }catch(e){ return null; }
+  }
+  function currentShareUrl(){
+    return location.origin + location.pathname + '#s=' + encodeState(state);
+  }
+  function scheduleSave(){
+    document.getElementById('saveState').textContent = 'Modifiche in corso…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      var hash = '#s=' + encodeState(state);
+      history.replaceState(null, '', hash);
+      document.getElementById('shareLink').value = currentShareUrl();
+      document.getElementById('saveState').textContent = 'Link aggiornato.';
+      setTimeout(function(){
+        var el = document.getElementById('saveState');
+        if(el.textContent === 'Link aggiornato.') el.textContent = '';
+      }, 1800);
+    }, 450);
+  }
+
+  function loadFromHash(){
+    var h = location.hash;
+    if(h && h.indexOf('#s=') === 0){
+      var decoded = decodeState(h.slice(3));
+      if(decoded) return decoded;
+    }
+    return null;
+  }
+
+  // ---------- Derived values ----------
+  function sogliaDanno(s){ return 1 + Math.ceil((s.attributi.forza + s.attributi.agilita)/2); }
+  function sogliaStress(s){ return 1 + Math.ceil((s.attributi.mente + s.attributi.empatia)/2); }
+  function traumaPenalita(v){ return Math.ceil(v/2); }
+
+  // ---------- Render: Attributes ----------
+  function renderAttributi(){
+    var grid = document.getElementById('attrGrid');
+    grid.innerHTML = '';
+    ATTRS.forEach(function(a){
+      var isDom = state.attributoDominante === a.key;
+      var card = document.createElement('div');
+      card.className = 'attr-card' + (isDom ? ' dominante' : '');
+
+      var name = document.createElement('div');
+      name.className = 'attr-name';
+      name.innerHTML = (isDom ? '<span class="star">★</span> ' : '') + a.label;
+      card.appendChild(name);
+
+      var valWrap = document.createElement('div');
+      valWrap.className = 'attr-val';
+      var input = document.createElement('input');
+      input.type = 'number'; input.min = 1; input.max = 8;
+      input.value = state.attributi[a.key];
+      input.addEventListener('input', function(){
+        var v = parseInt(input.value, 10);
+        if(isNaN(v)) v = 1;
+        v = Math.max(1, Math.min(8, v));
+        state.attributi[a.key] = v;
+        refreshTrauma();
+        refreshDiceOptions();
+        scheduleSave();
+      });
+      valWrap.appendChild(input);
+      card.appendChild(valWrap);
+
+      var fail = document.createElement('div');
+      fail.className = 'attr-fail';
+      var minus = mkIconBtn('−', function(){
+        state.fallimenti[a.key] = Math.max(0, state.fallimenti[a.key]-1);
+        renderAttributi(); scheduleSave();
+      });
+      var count = document.createElement('span');
+      count.textContent = 'falli ' + state.fallimenti[a.key];
+      var plus = mkIconBtn('+', function(){
+        state.fallimenti[a.key] += 1;
+        renderAttributi(); scheduleSave();
+      });
+      fail.appendChild(minus); fail.appendChild(count); fail.appendChild(plus);
+      card.appendChild(fail);
+
+      if(state.fallimenti[a.key] > state.attributi[a.key]){
+        var adv = document.createElement('button');
+        adv.className = 'btn small'; adv.style.marginTop='.4rem';
+        adv.textContent = 'Avanza';
+        adv.title = 'Aumenta l\'Attributo di 1 e azzera i fallimenti';
+        adv.addEventListener('click', function(){
+          state.attributi[a.key] = Math.min(8, state.attributi[a.key]+1);
+          state.fallimenti[a.key] = 0;
+          refreshTrauma(); refreshDiceOptions();
+          renderAttributi(); scheduleSave();
+        });
+        card.appendChild(adv);
+      }
+
+      var domSel = document.createElement('div');
+      domSel.className = 'attr-dominante-select';
+      var lbl = document.createElement('label');
+      lbl.style.cursor = 'pointer';
+      lbl.style.fontSize = '.7rem';
+      lbl.style.color = 'var(--ink-soft)';
+      var radio = document.createElement('input');
+      radio.type = 'radio'; radio.name='dominante'; radio.checked = isDom;
+      radio.style.marginRight='.3rem';
+      radio.addEventListener('change', function(){
+        state.attributoDominante = a.key;
+        renderAttributi(); refreshDiceOptions(); scheduleSave();
+      });
+      lbl.appendChild(radio);
+      lbl.appendChild(document.createTextNode('Dominante'));
+      domSel.appendChild(lbl);
+      card.appendChild(domSel);
+
+      grid.appendChild(card);
+    });
+  }
+  function mkIconBtn(txt, onClick){
+    var b = document.createElement('button');
+    b.className='icon-btn'; b.type='button'; b.textContent = txt;
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  // ---------- Render: Trauma ----------
+  function renderTraumaTrack(containerId, soglia, current, onSet){
+    var el = document.getElementById(containerId);
+    el.innerHTML = '';
+    for(var i=1;i<=soglia;i++){
+      (function(i){
+        var box = document.createElement('div');
+        box.className = 'tbox' + (i<=current ? ' filled' : '');
+        box.addEventListener('click', function(){
+          var newVal = (current === i) ? i-1 : i;
+          onSet(newVal);
+        });
+        el.appendChild(box);
+      })(i);
+    }
+  }
+  function refreshTrauma(){
+    var sD = sogliaDanno(state), sS = sogliaStress(state);
+    state.trauma.danno = Math.min(state.trauma.danno, sD);
+    state.trauma.stress = Math.min(state.trauma.stress, sS);
+    document.getElementById('sogliaDannoLabel').textContent = state.trauma.danno + ' / ' + sD;
+    document.getElementById('sogliaStressLabel').textContent = state.trauma.stress + ' / ' + sS;
+    document.getElementById('koDanno').innerHTML = state.trauma.danno >= sD ? '<span class="ko-tag">KO</span>' : '';
+    document.getElementById('koStress').innerHTML = state.trauma.stress >= sS ? '<span class="ko-tag">KO</span>' : '';
+    renderTraumaTrack('dannoTrack', sD, state.trauma.danno, function(v){
+      state.trauma.danno = v; refreshTrauma(); scheduleSave();
+    });
+    renderTraumaTrack('stressTrack', sS, state.trauma.stress, function(v){
+      state.trauma.stress = v; refreshTrauma(); scheduleSave();
+    });
+  }
+
+  // ---------- Render: generic text lists (qualità / abilità) ----------
+  function renderSimpleList(containerId, arr, placeholder, onChange){
+    var el = document.getElementById(containerId);
+    el.innerHTML = '';
+    arr.forEach(function(val, idx){
+      var row = document.createElement('div');
+      row.className = 'dyn-row';
+      var input = document.createElement('input');
+      input.type='text'; input.value = val; input.placeholder = placeholder;
+      input.className = 'grow';
+      input.addEventListener('input', function(){
+        arr[idx] = input.value; scheduleSave(); onChange && onChange();
+      });
+      var rm = mkIconBtn('×', function(){
+        arr.splice(idx,1); renderSimpleList(containerId, arr, placeholder, onChange); scheduleSave(); onChange && onChange();
+      });
+      row.appendChild(input); row.appendChild(rm);
+      el.appendChild(row);
+    });
+  }
+
+  // ---------- Render: Tratti extra ----------
+  function renderTrattiExtra(){
+    var el = document.getElementById('tratExtraList');
+    el.innerHTML = '';
+    state.tratti.extra.forEach(function(t, idx){
+      var row = document.createElement('div');
+      row.className = 'dyn-row';
+      var input = document.createElement('input');
+      input.type='text'; input.value = t; input.placeholder = 'Nuovo Tratto…'; input.className='grow';
+      input.addEventListener('input', function(){ state.tratti.extra[idx] = input.value; scheduleSave(); });
+      var rm = mkIconBtn('×', function(){ state.tratti.extra.splice(idx,1); renderTrattiExtra(); scheduleSave(); });
+      row.appendChild(input); row.appendChild(rm);
+      el.appendChild(row);
+    });
+  }
+
+  // ---------- Render: Equipaggiamento ----------
+  function renderEquip(){
+    var el = document.getElementById('equipList');
+    el.innerHTML = '';
+    state.equipaggiamento.forEach(function(it, idx){
+      var row = document.createElement('div');
+      row.className = 'dyn-row';
+      var input = document.createElement('input');
+      input.type='text'; input.value = it.nome; input.placeholder='Es. Spada di famiglia'; input.className='grow';
+      input.addEventListener('input', function(){ it.nome = input.value; scheduleSave(); });
+
+      var sel = document.createElement('select');
+      [['avanzato','Avanzato (+2D)'],['medio','Medio (+1D)'],['scarso','Scarso (0)']].forEach(function(o){
+        var opt = document.createElement('option'); opt.value=o[0]; opt.textContent=o[1];
+        if(it.rango===o[0]) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', function(){ it.rango = sel.value; renderEquip(); refreshDiceOptions(); scheduleSave(); });
+
+      var tag = document.createElement('span');
+      tag.className = 'tag plus'+EQUIP_BONUS[it.rango];
+      tag.textContent = '+'+EQUIP_BONUS[it.rango]+'D';
+
+      var rm = mkIconBtn('×', function(){
+        state.equipaggiamento.splice(idx,1); renderEquip(); refreshDiceOptions(); scheduleSave();
+      });
+      row.appendChild(input); row.appendChild(sel); row.appendChild(tag); row.appendChild(rm);
+      el.appendChild(row);
+    });
+  }
+
+  // ---------- Render: Ricchezza ----------
+  function renderRicchezza(){
+    var el = document.getElementById('ricchezzaSeg');
+    el.innerHTML = '';
+    RICCHEZZA_LABELS.forEach(function(lbl, idx){
+      var b = document.createElement('button');
+      b.type='button'; b.textContent = lbl;
+      b.className = state.ricchezza === idx ? 'active' : '';
+      b.addEventListener('click', function(){ state.ricchezza = idx; renderRicchezza(); scheduleSave(); });
+      el.appendChild(b);
+    });
+  }
+
+  // ---------- Render: Punti Fato ----------
+  function renderFato(){
+    var el = document.getElementById('fatoPips');
+    el.innerHTML = '';
+    for(var i=1;i<=3;i++){
+      (function(i){
+        var p = document.createElement('div');
+        p.className = 'pip' + (i<=state.puntiFato ? ' filled':'');
+        p.addEventListener('click', function(){
+          state.puntiFato = (state.puntiFato === i) ? i-1 : i;
+          renderFato(); scheduleSave();
+        });
+        el.appendChild(p);
+      })(i);
+    }
+  }
+
+  // ---------- Render: Cicatrici / Disturbi ----------
+  function renderCicDist(){
+    renderSimpleList('cicatriciList', state.cicatrici, 'Descrivi la Cicatrice…');
+    renderSimpleList('disturbiList', state.disturbi, 'Descrivi il Disturbo…');
+  }
+
+  // ---------- Dice roller ----------
+  function refreshDiceOptions(){
+    var attrSel = document.getElementById('diceAttr');
+    var prevAttr = attrSel.value;
+    attrSel.innerHTML = '';
+    ATTRS.forEach(function(a){
+      var opt = document.createElement('option');
+      opt.value = a.key; opt.textContent = a.label + ' (' + state.attributi[a.key] + ')';
+      attrSel.appendChild(opt);
+    });
+    if(prevAttr) attrSel.value = prevAttr;
+
+    var equipSel = document.getElementById('diceEquip');
+    var prevEquip = equipSel.value;
+    equipSel.innerHTML = '<option value="-1">Nessuno</option>';
+    state.equipaggiamento.forEach(function(it, idx){
+      var opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = (it.nome || '(senza nome)') + ' — +'+EQUIP_BONUS[it.rango]+'D';
+      equipSel.appendChild(opt);
+    });
+    if(prevEquip) equipSel.value = prevEquip;
+    updateDiceTotal();
+  }
+
+  function computeDicePool(){
+    var attrKey = document.getElementById('diceAttr').value || 'forza';
+    var base = state.attributi[attrKey] || 0;
+    var qualita = document.getElementById('diceQualita').value === 'si' ? 1 : 0;
+    var abilita = document.getElementById('diceAbilita').value === 'si' ? 1 : 0;
+    var equipIdx = document.getElementById('diceEquip').value;
+    var equipBonus = 0;
+    if(equipIdx !== '-1' && state.equipaggiamento[equipIdx]) equipBonus = EQUIP_BONUS[state.equipaggiamento[equipIdx].rango];
+    var vantaggio = parseInt(document.getElementById('diceVantaggio').value,10) || 0;
+    var distVal = document.getElementById('diceDistanza').value;
+    var distPenalty = 0;
+    if(distVal === '-1' || distVal === '-1b') distPenalty = 1;
+    if(distVal === '-2') distPenalty = 2;
+    var difficolta = parseInt(document.getElementById('diceDifficolta').value,10) || 0;
+    var noEquipPenalty = document.getElementById('diceNoEquip').value === 'si' ? 1 : 0;
+
+    var isFisico = (attrKey === 'forza' || attrKey === 'agilita');
+    var traumaVal = isFisico ? state.trauma.danno : state.trauma.stress;
+    var traumaPen = traumaPenalita(traumaVal);
+
+    var total = base + qualita + abilita + equipBonus + vantaggio - distPenalty - difficolta - noEquipPenalty - traumaPen;
+    total = Math.max(0, total);
+    return {total:total, traumaPen:traumaPen, traumaTipo: isFisico ? 'Danno' : 'Stress'};
+  }
+
+  function updateDiceTotal(){
+    var r = computeDicePool();
+    document.getElementById('diceTotalVal').textContent = r.total + ' D10';
+  }
+
+  function rollDice(){
+    var r = computeDicePool();
+    var resultEl = document.getElementById('diceResult');
+    resultEl.innerHTML = '';
+
+    if(r.total <= 0){
+      var out = document.createElement('div');
+      out.className = 'outcome fail';
+      out.textContent = 'Riserva a 0 dadi: fallimento automatico, il Narratore introduce una Complicazione grave.';
+      resultEl.appendChild(out);
+      return;
+    }
+
+    var rolls = [];
+    for(var i=0;i<r.total;i++){ rolls.push(1 + Math.floor(Math.random()*10)); }
+    var successi = rolls.filter(function(v){return v===10;}).length;
+    var maxNonSuccess = Math.max.apply(null, rolls.filter(function(v){return v!==10;}).concat([0]));
+
+    var facesWrap = document.createElement('div');
+    facesWrap.className = 'dice-faces';
+    var worst = Math.min.apply(null, rolls);
+    rolls.forEach(function(v){
+      var d = document.createElement('div');
+      d.className = 'die' + (v===10 ? ' success' : (v===worst && successi===0 ? ' worst' : ''));
+      d.textContent = v;
+      facesWrap.appendChild(d);
+    });
+    resultEl.appendChild(facesWrap);
+
+    var out = document.createElement('div');
+    if(successi === 0){
+      out.className = 'outcome fail';
+      var sev = 'grave';
+      if(maxNonSuccess >= 8) sev = 'lieve';
+      else if(maxNonSuccess >= 5) sev = 'moderata';
+      else if(maxNonSuccess >= 2) sev = 'seria';
+      out.textContent = 'Nessun successo — Complicazione ' + sev + ' (dado più alto: ' + maxNonSuccess + '). Penalità Trauma già applicata: -' + r.traumaPen + 'D (' + r.traumaTipo + ').';
+    } else if(successi === 1){
+      out.className = 'outcome';
+      out.textContent = '1 Successo. Penalità Trauma già applicata: -' + r.traumaPen + 'D (' + r.traumaTipo + ').';
+    } else {
+      out.className = 'outcome crit';
+      out.textContent = successi + ' Successi — Successo Critico! Penalità Trauma già applicata: -' + r.traumaPen + 'D (' + r.traumaTipo + ').';
+    }
+    resultEl.appendChild(out);
+  }
+
+  // ---------- Scalar text bindings ----------
+  function bindText(id, path){
+    var el = document.getElementById(id);
+    el.value = getPath(state, path);
+    el.addEventListener('input', function(){
+      setPath(state, path, el.value);
+      scheduleSave();
+    });
+  }
+  function getPath(obj, path){
+    return path.split('.').reduce(function(o,k){return o[k];}, obj);
+  }
+  function setPath(obj, path, val){
+    var parts = path.split('.');
+    var last = parts.pop();
+    var target = parts.reduce(function(o,k){return o[k];}, obj);
+    target[last] = val;
+  }
+
+  function bindSelect(id, path, onAfter){
+    var el = document.getElementById(id);
+    el.value = getPath(state, path);
+    el.addEventListener('change', function(){
+      setPath(state, path, el.value);
+      scheduleSave();
+      onAfter && onAfter();
+    });
+  }
+
+  // ---------- Full render ----------
+  function renderAll(){
+    document.getElementById('fascicoloId').textContent = state.meta.id;
+
+    bindText('nome','nome');
+    bindText('archetipo','archetipo');
+    bindText('aspetto','aspetto');
+    bindText('convinzione','tratti.convinzione');
+    bindText('impulso','tratti.impulso');
+    bindText('legame','tratti.legame');
+    bindText('note','note');
+
+    renderAttributi();
+    refreshTrauma();
+    renderSimpleList('qualitaList', state.qualita, 'Es. Astuto');
+    renderSimpleList('abilitaList', state.abilita, 'Es. Investigare');
+    renderTrattiExtra();
+    renderEquip();
+    bindSelect('armatura','armatura', refreshDiceOptions);
+    renderRicchezza();
+    renderFato();
+    renderCicDist();
+
+    refreshDiceOptions();
+    document.getElementById('shareLink').value = currentShareUrl();
+  }
+
+  // ---------- Buttons ----------
+  document.getElementById('addQualita').addEventListener('click', function(){
+    state.qualita.push(''); renderSimpleList('qualitaList', state.qualita, 'Es. Astuto'); scheduleSave();
+  });
+  document.getElementById('addAbilita').addEventListener('click', function(){
+    state.abilita.push(''); renderSimpleList('abilitaList', state.abilita, 'Es. Investigare'); scheduleSave();
+  });
+  document.getElementById('addTratto').addEventListener('click', function(){
+    state.tratti.extra.push(''); renderTrattiExtra(); scheduleSave();
+  });
+  document.getElementById('addEquip').addEventListener('click', function(){
+    state.equipaggiamento.push({nome:'', rango:'scarso'}); renderEquip(); refreshDiceOptions(); scheduleSave();
+  });
+  document.getElementById('addCicatrice').addEventListener('click', function(){
+    state.cicatrici.push(''); renderCicDist(); scheduleSave();
+  });
+  document.getElementById('addDisturbo').addEventListener('click', function(){
+    state.disturbi.push(''); renderCicDist(); scheduleSave();
+  });
+
+  ['diceAttr','diceQualita','diceAbilita','diceEquip','diceVantaggio','diceDistanza','diceDifficolta','diceNoEquip'].forEach(function(id){
+    document.getElementById(id).addEventListener('change', updateDiceTotal);
+    document.getElementById(id).addEventListener('input', updateDiceTotal);
+  });
+  document.getElementById('rollBtn').addEventListener('click', rollDice);
+
+  document.getElementById('copyLink').addEventListener('click', function(){
+    var input = document.getElementById('shareLink');
+    input.select(); input.setSelectionRange(0, 99999);
+    try{
+      navigator.clipboard.writeText(input.value);
+    }catch(e){ document.execCommand('copy'); }
+    var btn = document.getElementById('copyLink');
+    var old = btn.textContent; btn.textContent = 'Copiato!';
+    setTimeout(function(){ btn.textContent = old; }, 1300);
+  });
+
+  document.getElementById('downloadJson').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'uallera-' + (state.nome || state.meta.id).replace(/[^a-z0-9\-]+/gi,'_') + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById('uploadJsonBtn').addEventListener('click', function(){
+    document.getElementById('uploadJsonInput').click();
+  });
+  document.getElementById('uploadJsonInput').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      try{
+        var parsed = JSON.parse(reader.result);
+        if(parsed && parsed.meta){
+          state = parsed;
+          renderAll();
+          scheduleSave();
+        } else {
+          alert('File non riconosciuto come scheda Uallera.');
+        }
+      }catch(err){
+        alert('Impossibile leggere il file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  document.getElementById('newSheet').addEventListener('click', function(){
+    if(confirm('Creare un nuovo personaggio? Se non hai salvato il link o un backup di questa scheda, i dati andranno persi.')){
+      state = defaultState();
+      renderAll();
+      scheduleSave();
+    }
+  });
+
+  // ---------- Init ----------
+  state = loadFromHash() || defaultState();
+  renderAll();
+  window.addEventListener('hashchange', function(){
+    var fromHash = loadFromHash();
+    if(fromHash){ state = fromHash; renderAll(); }
+  });
+})();
+</script>
+</body>
+</html>
