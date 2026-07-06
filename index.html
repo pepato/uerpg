@@ -87,7 +87,7 @@
   .col-main{min-width:0;}
   @media (max-width:880px){
     .layout{display:block;}
-    .dice-aside{position:static;margin-bottom:.7rem;}
+    .dice-aside{position:static;margin-bottom:.7rem;max-height:none;}
   }
 
   /* ---------- Section shell ---------- */
@@ -247,19 +247,30 @@
     position:sticky;top:1rem;align-self:start;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
     overflow:hidden;
+    display:flex;flex-direction:column;
+    max-height:calc(100vh - 2rem);
   }
   .dice-toggle{position:absolute;opacity:0;pointer-events:none;}
   .dice-aside-head{
     display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;
-    padding:.65rem .8rem;background:var(--paper-alt);border-bottom:1px solid var(--line);
-    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;font-size:1.02rem;
+    padding:.5rem .65rem;background:var(--paper-alt);border-bottom:1px solid var(--line);
+    font-family:var(--font-display);text-transform:uppercase;letter-spacing:.04em;font-size:.95rem;
+    flex:0 0 auto;
   }
   .dice-aside-head .chevron{font-family:var(--font-mono);font-size:.8rem;color:var(--ink-soft);transition:transform .15s ease;}
   .dice-toggle:checked ~ .dice-aside-head .chevron{transform:rotate(180deg);}
-  .dice-aside-body{padding:.8rem .8rem .9rem;}
-  .dice-toggle:not(:checked) ~ .dice-aside-body{display:none;}
-  .dice-aside .dice-controls{grid-template-columns:1fr;}
-  @media (max-width:880px){ .dice-aside .dice-controls{grid-template-columns:1fr 1fr;} }
+  .dice-aside-body{display:none;flex-direction:column;min-height:0;}
+  .dice-toggle:checked ~ .dice-aside-body{display:flex;}
+  .dice-quick{flex:0 0 auto;padding:.5rem .65rem .45rem;border-bottom:1px dashed var(--line-strong);}
+  .dice-scroll{flex:1 1 auto;overflow-y:auto;padding:.5rem .65rem .6rem;min-height:0;}
+  .dice-aside .dice-controls{grid-template-columns:1fr;gap:.4rem;}
+  .dice-aside label.field{margin-bottom:0;gap:.12rem;font-size:.76rem;}
+  .dice-aside input[type=text],.dice-aside input[type=number],.dice-aside select{padding:.3rem .42rem;font-size:.88rem;}
+  .dice-aside .hint{margin:0 0 .45rem;font-size:.74rem;}
+  @media (max-width:880px){
+    .dice-aside{max-height:none;}
+    .dice-aside .dice-controls{grid-template-columns:1fr 1fr;}
+  }
 
   /* ---------- Dice roller ---------- */
   .dice-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;}
@@ -267,20 +278,20 @@
   .dice-total{
     font-family:var(--font-mono);
     display:flex;justify-content:space-between;align-items:center;
-    border-top:1px dashed var(--line-strong);border-bottom:1px dashed var(--line-strong);
-    padding:.5rem 0;margin:.7rem 0;font-size:.85rem;
+    padding:.15rem 0;font-size:.8rem;
   }
-  .dice-total b{font-size:1.35rem;font-family:var(--font-display);}
-  .dice-result{margin-top:.7rem;}
-  .dice-faces{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem;}
+  .dice-total b{font-size:1.2rem;font-family:var(--font-display);}
+  .dice-quick .btn{width:100%;padding:.48rem .7rem;margin-top:.35rem;}
+  .dice-result{margin-top:.5rem;}
+  .dice-faces{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.4rem;}
   .die{
-    width:1.85rem;height:1.85rem;border:1px solid var(--ink);
+    width:1.7rem;height:1.7rem;border:1px solid var(--ink);
     display:flex;align-items:center;justify-content:center;
-    font-family:var(--font-mono);font-weight:600;background:#fff;font-size:.85rem;
+    font-family:var(--font-mono);font-weight:600;background:#fff;font-size:.8rem;
   }
   .die.success{background:var(--verdigris);border-color:var(--verdigris);color:#fff;}
   .die.worst{background:var(--oxide);border-color:var(--oxide);color:#fff;}
-  .outcome{font-family:var(--font-mono);font-size:.82rem;padding:.5rem .6rem;border-left:3px solid var(--ink-soft);background:#fff;}
+  .outcome{font-family:var(--font-mono);font-size:.78rem;padding:.42rem .5rem;border-left:3px solid var(--ink-soft);background:#fff;}
   .outcome.crit{border-color:var(--verdigris);color:var(--verdigris);}
   .outcome.fail{border-color:var(--oxide);color:var(--oxide);}
 
@@ -480,16 +491,24 @@
       <span class="chevron">▾</span>
     </label>
     <div class="dice-aside-body">
+    <div class="dice-quick">
+      <div class="dice-total">
+        <span>Riserva (Trauma incluso)</span>
+        <b id="diceTotalVal">0</b>
+      </div>
+      <button class="btn" id="rollBtn">Tira i dadi</button>
+    </div>
+    <div class="dice-scroll">
     <p class="hint">Successo = 9 o 10. Più di un Successo = Successo Critico.</p>
     <div class="dice-controls">
       <label class="field">Attributo
         <select id="diceAttr"></select>
       </label>
       <label class="field">Qualità
-        <select id="diceQualita"><option value="no">Non usata</option><option value="si">+1D</option></select>
+        <select id="diceQualita"></select>
       </label>
       <label class="field">Abilità
-        <select id="diceAbilita"><option value="no">Non usata</option><option value="si">+1D</option></select>
+        <select id="diceAbilita"></select>
       </label>
       <label class="field">Equipaggiamento
         <select id="diceEquip"></select>
@@ -517,12 +536,8 @@
         <select id="diceNoEquip"><option value="no">No</option><option value="si">Sì (-1D)</option></select>
       </label>
     </div>
-    <div class="dice-total">
-      <span>Riserva calcolata (Trauma incluso automaticamente)</span>
-      <b id="diceTotalVal">0</b>
-    </div>
-    <button class="btn" id="rollBtn">Tira i dadi</button>
     <div class="dice-result" id="diceResult"></div>
+    </div>
     </div>
   </aside>
 
@@ -885,14 +900,37 @@
       equipSel.appendChild(opt);
     });
     if(prevEquip) equipSel.value = prevEquip;
+
+    var qualSel = document.getElementById('diceQualita');
+    var prevQual = qualSel.value;
+    qualSel.innerHTML = '<option value="-1">Nessuna</option>';
+    state.qualita.forEach(function(q, idx){
+      var opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = (q || '(senza nome)') + ' (+1D)';
+      qualSel.appendChild(opt);
+    });
+    if(prevQual) qualSel.value = prevQual;
+
+    var abilSel = document.getElementById('diceAbilita');
+    var prevAbil = abilSel.value;
+    abilSel.innerHTML = '<option value="-1">Nessuna</option>';
+    state.abilita.forEach(function(ab, idx){
+      var opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = (ab || '(senza nome)') + ' (+1D)';
+      abilSel.appendChild(opt);
+    });
+    if(prevAbil) abilSel.value = prevAbil;
+
     updateDiceTotal();
   }
 
   function computeDicePool(){
     var attrKey = document.getElementById('diceAttr').value || 'forza';
     var base = state.attributi[attrKey] || 0;
-    var qualita = document.getElementById('diceQualita').value === 'si' ? 1 : 0;
-    var abilita = document.getElementById('diceAbilita').value === 'si' ? 1 : 0;
+    var qualita = document.getElementById('diceQualita').value !== '-1' ? 1 : 0;
+    var abilita = document.getElementById('diceAbilita').value !== '-1' ? 1 : 0;
     var equipIdx = document.getElementById('diceEquip').value;
     var equipBonus = 0;
     if(equipIdx !== '-1' && state.equipaggiamento[equipIdx]) equipBonus = EQUIP_BONUS[state.equipaggiamento[equipIdx].rango];
@@ -1008,8 +1046,8 @@
 
     renderAttributi();
     refreshTrauma();
-    renderSimpleList('qualitaList', state.qualita, 'Es. Astuto');
-    renderSimpleList('abilitaList', state.abilita, 'Es. Investigare');
+    renderSimpleList('qualitaList', state.qualita, 'Es. Astuto', refreshDiceOptions);
+    renderSimpleList('abilitaList', state.abilita, 'Es. Investigare', refreshDiceOptions);
     renderTrattiExtra();
     renderEquip();
     bindSelect('armatura','armatura', refreshDiceOptions);
@@ -1023,10 +1061,10 @@
 
   // ---------- Buttons ----------
   document.getElementById('addQualita').addEventListener('click', function(){
-    state.qualita.push(''); renderSimpleList('qualitaList', state.qualita, 'Es. Astuto'); scheduleSave();
+    state.qualita.push(''); renderSimpleList('qualitaList', state.qualita, 'Es. Astuto', refreshDiceOptions); refreshDiceOptions(); scheduleSave();
   });
   document.getElementById('addAbilita').addEventListener('click', function(){
-    state.abilita.push(''); renderSimpleList('abilitaList', state.abilita, 'Es. Investigare'); scheduleSave();
+    state.abilita.push(''); renderSimpleList('abilitaList', state.abilita, 'Es. Investigare', refreshDiceOptions); refreshDiceOptions(); scheduleSave();
   });
   document.getElementById('addTratto').addEventListener('click', function(){
     state.tratti.extra.push(''); renderTrattiExtra(); scheduleSave();
